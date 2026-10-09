@@ -1,0 +1,128 @@
+% ===== Спільна преамбула навчального посібника (XeLaTeX) =====
+\usepackage{fontspec}
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
+\setmonofont{DejaVu Sans Mono}[Scale=0.80]
+\usepackage{polyglossia}
+\setdefaultlanguage{ukrainian}
+\setotherlanguage{english}
+\usepackage{microtype}
+
+\usepackage[a5paper,inner=20mm,outer=13mm,top=17mm,bottom=18mm,headsep=4.5mm,footskip=9mm]{geometry}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,backgrounds}
+\usepackage{fancyhdr}
+\usepackage{truncate}
+\usepackage{titlesec}
+\usepackage{emptypage}
+\usepackage[hidelinks,unicode]{hyperref}
+\usepackage{xurl}
+\urlstyle{same}
+
+\setlist{itemsep=1pt,parsep=1pt,topsep=3pt}
+\setlength{\parindent}{1.25em}
+\sloppy
+\hbadness=10000
+\vbadness=10000
+\clubpenalty=10000
+\widowpenalty=10000
+\raggedbottom
+\renewcommand{\arraystretch}{1.15}
+
+% ---- Колонтитули та колонцифри (чергування парних/непарних сторінок) ----
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.~#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.~#1}}
+\pagestyle{fancy}
+\fancyhf{}
+\newcommand{\chaptershort}[1]{\markboth{\thechapter.~#1}{}}
+\fancyhead[LE]{\footnotesize\itshape\truncate{\headwidth}{\nouppercase{\leftmark}}}
+\fancyhead[RO]{\footnotesize\itshape\hfill\truncate{\headwidth}{\nouppercase{\rightmark}}}
+\fancyfoot[LE]{\footnotesize\bfseries\thepage}
+\fancyfoot[RO]{\footnotesize\bfseries\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[LE]{\footnotesize\bfseries\thepage}%
+  \fancyfoot[RO]{\footnotesize\bfseries\thepage}%
+  \renewcommand{\headrulewidth}{0pt}}
+
+% ---- Оформлення заголовків ----
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily\bfseries\raggedright}
+  {\normalsize\mdseries\MakeUppercase{Розділ~\thechapter}}
+  {6pt}{\large}[\vspace{3pt}\titlerule]
+\titlespacing*{\chapter}{0pt}{0pt}{16pt}
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\sffamily\bfseries\raggedright}
+  {}{0pt}{\large}[\vspace{3pt}\titlerule]
+\titleformat{\section}{\normalfont\sffamily\bfseries\normalsize}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{11pt}{4pt}
+\titleformat{\subsection}{\normalfont\sffamily\bfseries\small}{\thesubsection}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{8pt}{3pt}
+\titleformat{\subsubsection}{\normalfont\sffamily\itshape\small}{\thesubsubsection}{0.6em}{}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
+
+% ---- Авторські середовища та команди ----
+\newenvironment{prnbox}{\par\smallskip\begin{leftbar}\small}{\end{leftbar}\smallskip\par}
+
+\newcommand{\prnhead}{\section*{Відповідність програмним результатам навчання}%
+  \addcontentsline{toc}{section}{Відповідність програмним результатам навчання}%
+  \markright{Відповідність програмним результатам навчання}}
+
+\newcommand{\selfcheck}{%
+  \section*{Питання для самоперевірки}%
+  \addcontentsline{toc}{section}{Питання для самоперевірки}%
+  \markright{Питання для самоперевірки}}
+
+\newcommand{\term}[1]{\textbf{#1}}
+\newcommand{\figcap}[1]{\par\vspace{-2pt}\begin{center}\footnotesize #1\end{center}\vspace{2pt}}
+% Рисунок разом із підписом (нерозривно)
+\newenvironment{tikzfig}{\par\addvspace{6pt}\noindent\begin{minipage}{\linewidth}\centering}{\end{minipage}\par\addvspace{4pt}}
+\newcommand{\tabcap}[1]{\par\vspace{2pt}\begin{center}\footnotesize #1\end{center}\vspace{2pt}}
+%\newcommand{\tabhead}[1]{\par\vspace{4pt}\begin{center}\footnotesize #1\end{center}\vspace{-2pt}}
+% Назва таблиці: мінімальний відступ до тіла таблиці й заборона розриву сторінки
+% між назвою та таблицею (у т.ч. коли таблицю обгорнуто в center).
+\usepackage{needspace}
+\makeatletter
+\newif\if@tabheadpending
+\newif\if@tabheadincenter
+\newcommand{\tabhead}[1]{%
+  \par\addvspace{6pt}%
+  \needspace{6\baselineskip}%
+  {\centering\footnotesize\interlinepenalty\@M #1\par}%
+  \nobreak\vskip 1.5pt\relax\nobreak
+  \@nobreaktrue
+  \global\@tabheadpendingtrue}
+\AddToHook{env/center/begin}{%
+  \if@tabheadpending
+    \global\@tabheadpendingfalse\@tabheadincentertrue
+    \topsep\z@\partopsep\z@
+  \fi}
+\AddToHook{env/center/end}{%
+  \if@tabheadincenter\@topsepadd 6pt plus 2pt\relax\fi}
+% таблиця одразу після \tabhead без center: без абзацного відступу, з інтервалом після
+\newcommand{\@tabheadbefore}{\if@tabheadpending\ifvmode\noindent\fi\fi}
+\newcommand{\@tabheadafter}{\if@tabheadpending
+    \global\@tabheadpendingfalse\par\global\@nobreakfalse\addvspace{6pt plus 2pt}\fi}
+\AddToHook{env/tabularx/before}{\@tabheadbefore}
+\AddToHook{env/tabular/before}{\@tabheadbefore}
+\AddToHook{env/tabularx/after}{\@tabheadafter}
+\AddToHook{env/tabular/after}{\@tabheadafter}
+\AddToHook{env/longtable/after}{\global\@tabheadpendingfalse}
+\makeatother
+
+\usepackage{ragged2e}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash\hyphenpenalty=50\relax}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash\hyphenpenalty=50\relax}X}

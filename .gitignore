@@ -1,0 +1,8 @@
+build/
+_test_*.tex
+__pycache__/
+*.aux
+*.log
+*.toc
+*.out
+missfont.log
