@@ -37,13 +37,13 @@
 
 \begin{tikzfig}
 \begin{tikzpicture}[font=\scriptsize,
-  z/.style={draw,rounded corners=2pt,minimum height=6mm,text width=22mm,align=center,font=\tiny},
+  zn/.style={draw,rounded corners=2pt,minimum height=6mm,text width=22mm,align=center,font=\tiny},
   >={Stealth[length=1.4mm]}]
-\node[z] (it) at (0,0) {IT-мережа (офіс, інтернет)};
-\node[z,fill=black!6] (dmz) at (3.2,0) {ДМЗ / односпрямований шлюз};
-\node[z] (ot) at (6.4,0) {OT-мережа (SCADA)};
-\node[z] (plc) at (6.4,-1.3) {контролери (PLC)};
-\node[z] (phys) at (6.4,-2.6) {фізичні запобіжники};
+\node[zn] (it) at (0,0) {IT-мережа (офіс, інтернет)};
+\node[zn,fill=black!6] (dmz) at (3.2,0) {ДМЗ / односпрямований шлюз};
+\node[zn] (ot) at (6.4,0) {OT-мережа (SCADA)};
+\node[zn] (plc) at (6.4,-1.3) {контролери (PLC)};
+\node[zn] (phys) at (6.4,-2.6) {фізичні запобіжники};
 \draw[<->] (it)--(dmz); \draw[->] (dmz)--(ot); \draw[->] (ot)--(plc); \draw[-] (plc)--(phys);
 \node[font=\tiny,align=center] at (3.2,-1.3) {моніторинг\\протоколів};
 \draw[->,dashed] (3.2,-1.0) -- (ot.south west);
